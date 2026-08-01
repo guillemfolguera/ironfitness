@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Aplicación web para planificar entrenamientos y realizar un seguimiento del progreso físico mediante el registro de rutinas, entrenamientos, peso y comidas.
+Aplicación web para planificar rutinas semanales de entrenamiento y realizar un seguimiento del progreso físico de personas que practican deporte mediante el registro de rutinas, peso y alimentación.
 
 ## Usuario objetivo
 
@@ -16,9 +16,9 @@ Muchas personas utilizan diferentes aplicaciones, hojas de cálculo o notas para
 
 - Registro e inicio de sesión de usuarios.
 - Configuración del perfil con objetivo físico y peso inicial.
-- Crear, editar y eliminar rutinas de entrenamiento.
-- Registrar entrenamientos realizados asociados a una rutina.
-- Registrar el peso corporal.
-- Registrar información sobre las comidas realizadas (calorías, proteínas, carbohidratos y grasas).
-- Visualizar un dashboard con el progreso físico del usuario.
+- Crear, consultar, editar y eliminar rutinas semanales de entrenamiento.
+- Marcar el estado de los entrenamientos planificados.
+- Registrar el peso corporal y visualizar su evolución mediante una gráfica.
+- Registrar información sobre las comidas realizadas (calorías y proteínas).
+- Consultar una pantalla de inicio con un resumen del progreso físico del usuario.
 - Consultar estadísticas sobre entrenamientos, evolución del peso y alimentación.
