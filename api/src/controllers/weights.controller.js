@@ -1,0 +1,1 @@
+const Weight = require("../lib/models/weight.model");
