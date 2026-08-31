@@ -1,39 +1,20 @@
-import { useState, useEffect } from 'react';
-import * as ApiService from '../../services/api-services';
-import MealItem from '../meal-item/meal-item';
+import MealItem from "../meal-item/meal-item";
 
-function MealsList() {
-  const [meals, setMeals] = useState();
-
-  useEffect(() => {
-    async function fetchMeals() {
-      try {
-        const meals = await ApiService.listMeals();
-        setMeals(meals);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchMeals();
-  }, []);
-
-  if (!meals) return null;
-
+function MealsList({ meals, onDelete }) {
   return (
-    <table className="table">
+    <table className="data-table">
       <thead>
         <tr>
           <th>Comida</th>
           <th>Fecha</th>
-          <th>Calorías</th>
-          <th>Proteínas</th>
+          <th>Calorias</th>
+          <th>Proteinas</th>
+          {onDelete && <th />}
         </tr>
       </thead>
-
       <tbody>
         {meals.map((meal) => (
-          <MealItem key={meal._id} meal={meal} />
+          <MealItem key={meal._id} meal={meal} onDelete={onDelete} />
         ))}
       </tbody>
     </table>

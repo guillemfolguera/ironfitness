@@ -1,0 +1,11 @@
+{
+  "name": "ironfitness",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix vite-project run dev --",
+    "build": "npm --prefix vite-project run build",
+    "lint": "npm --prefix vite-project run lint",
+    "api": "npm --prefix api run dev",
+    "start": "npm --prefix api start"
+  }
+}

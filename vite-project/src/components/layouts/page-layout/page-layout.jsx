@@ -1,8 +1,12 @@
-function PageLayout({ children }) {
+function PageLayout({ title, action, children }) {
   return (
-    <div className="container py-3">
+    <section className="page">
+      <header className="page-header">
+        <h1>{title}</h1>
+        {action}
+      </header>
       {children}
-    </div>
+    </section>
   );
 }
 
