@@ -1,4 +1,4 @@
-function MealItem({ meal }) {
+function MealItem({ meal, onDelete }) {
   const { name, date, calories, protein } = meal;
 
   return (
@@ -7,6 +7,13 @@ function MealItem({ meal }) {
       <td>{new Date(date).toLocaleDateString()}</td>
       <td>{calories}</td>
       <td>{protein} g</td>
+      {onDelete && (
+        <td>
+          <button className="ghost-button" type="button" onClick={() => onDelete(meal._id)}>
+            Borrar
+          </button>
+        </td>
+      )}
     </tr>
   );
 }
