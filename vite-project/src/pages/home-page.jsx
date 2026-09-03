@@ -99,7 +99,7 @@ function HomePage() {
         <section className="panel">
           <div className="panel-title">
             <h2>Ultima comida</h2>
-            <Link className="ghost-button" to="/meals">Ver dieta</Link>
+            <Link className="ghost-button" to="/meals">Ver alimentación</Link>
           </div>
           {summary.lastMeal ? (
             <div className="mini-summary">

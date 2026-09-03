@@ -2,6 +2,42 @@ const User = require("../lib/models/user.model");
 const bcrypt = require("bcrypt");
 const Session = require("../lib/models/session.model");
 const { serialize } = require("cookie");
+const cloudinary = require("../lib/cloudinary");
+
+function profilePayload(user) {
+  return {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    objective: user.objective,
+    initialWeight: user.initialWeight,
+    avatarUrl: user.avatarUrl,
+    createdAt: user.createdAt,
+  };
+}
+
+function uploadBuffer(file, userId) {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "iron-fitness/avatars",
+        public_id: userId.toString(),
+        overwrite: true,
+        resource_type: "image",
+        transformation: [
+          { width: 500, height: 500, crop: "fill", gravity: "face" },
+          { quality: "auto", fetch_format: "auto" },
+        ],
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      },
+    );
+
+    stream.end(file.buffer);
+  });
+}
 
 module.exports.create = async (req, res, next) => {
   try {
@@ -59,6 +95,7 @@ module.exports.create = async (req, res, next) => {
       email: newUser.email,
       objective: newUser.objective,
       initialWeight: newUser.initialWeight,
+      avatarUrl: newUser.avatarUrl,
       createdAt: newUser.createdAt,
     });
   } catch (error) {
@@ -152,10 +189,7 @@ module.exports.profile = async (req, res, next) => {
 
     const u = req.user;
 
-    res.json({
-      name: u.name,
-      objective: u.objective,
-    });
+    res.json(profilePayload(u));
   } catch (error) {
     next(error);
   }
@@ -192,14 +226,29 @@ module.exports.update = async (req, res, next) => {
 
     await user.save();
 
-    res.status(200).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      objective: user.objective,
-      initialWeight: user.initialWeight,
-      createdAt: user.createdAt,
-    });
+    res.status(200).json(profilePayload(user));
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports.avatar = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Selecciona una imagen" });
+    }
+
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const uploaded = await uploadBuffer(req.file, user._id);
+
+    user.avatarUrl = uploaded.secure_url;
+    user.avatarPublicId = uploaded.public_id;
+
+    await user.save();
+
+    res.status(200).json(profilePayload(user));
   } catch (error) {
     next(error);
   }

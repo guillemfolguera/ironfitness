@@ -11,8 +11,8 @@ function RoutineNewPage() {
   const handleSubmit = async (payload) => {
     setError(null);
     try {
-      const routine = await ApiService.createRoutine(payload);
-      navigate(`/routines/${routine._id}`);
+      await ApiService.createRoutine(payload);
+      navigate("/routines");
     } catch (err) {
       if (err?.response?.status === 401) navigate("/login");
       setError(err?.response?.data?.message || "No se pudo crear la rutina");

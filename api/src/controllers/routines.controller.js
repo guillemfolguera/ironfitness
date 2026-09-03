@@ -1,5 +1,16 @@
 const Routine = require("../lib/models/routine.model");
 
+function startOfNaturalWeek(value) {
+  const date = new Date(value);
+  date.setHours(0, 0, 0, 0);
+
+  const weekday = date.getDay();
+  const diff = weekday === 0 ? -6 : 1 - weekday;
+  date.setDate(date.getDate() + diff);
+
+  return date;
+}
+
 module.exports.list = async (req, res, next) => {
   try {
     const routines = await Routine.find({ owner: req.user._id });
@@ -13,7 +24,7 @@ module.exports.create = async (req, res, next) => {
   try {
     const { week, days } = req.body;
     const routine = await Routine.create({
-      week,
+      week: startOfNaturalWeek(week),
       days,
       owner: req.user._id,
     });

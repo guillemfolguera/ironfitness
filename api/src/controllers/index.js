@@ -4,6 +4,7 @@ const routines = require("./routines.controller");
 const users = require("./users.controller");
 const weights = require("./weights.controller");
 const sessions = require("./session.controller");
+const upload = require("../lib/upload");
 const router = Router();
 
 // Middleware
@@ -15,6 +16,7 @@ router.post("/login", users.login);
 router.delete("/logout", sessions.requireAuth, users.logout);
 router.get("/profile", sessions.requireAuth, users.profile);
 router.put("/profile", sessions.requireAuth, users.update);
+router.post("/profile/avatar", sessions.requireAuth, upload.single("avatar"), users.avatar);
 
 router.get("/meals", sessions.requireAuth, meals.list);
 router.post("/meals", sessions.requireAuth, meals.create);

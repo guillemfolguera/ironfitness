@@ -13,6 +13,12 @@ export const logout = async () => unwrap(await http.delete("/logout"));
 
 export const getProfile = async () => unwrap(await http.get("/profile"));
 export const updateProfile = async (profileData) => unwrap(await http.put("/profile", profileData));
+export const uploadProfileAvatar = async (file) => {
+  const formData = new FormData();
+  formData.append("avatar", file);
+
+  return unwrap(await http.post("/profile/avatar", formData));
+};
 
 export const listMeals = async () => unwrap(await http.get("/meals"));
 export const createMeal = async (mealData) => unwrap(await http.post("/meals", mealData));

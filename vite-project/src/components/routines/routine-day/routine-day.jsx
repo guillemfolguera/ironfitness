@@ -1,4 +1,10 @@
 function RoutineDay({ day, active, onSelect, onStatusChange }) {
+  const statusOptions = [
+    { value: "pending", label: "Pendiente" },
+    { value: "completed", label: "Hecho" },
+    { value: "missed", label: "Cancelado" },
+  ];
+
   return (
     <tr className={active ? "active-row" : ""}>
       <td>
@@ -9,11 +15,19 @@ function RoutineDay({ day, active, onSelect, onStatusChange }) {
       <td>{day.trainingType || "Descanso"}</td>
       <td>{day.duration || 0} min</td>
       <td>
-        <select className={`status-select ${day.status}`} value={day.status} onChange={(event) => onStatusChange(day, event.target.value)}>
-          <option value="pending">Pendiente</option>
-          <option value="completed">Hecho</option>
-          <option value="missed">Perdido</option>
-        </select>
+        <div className="status-control" aria-label="Estado del entrenamiento">
+          {statusOptions.map((option) => (
+            <button
+              key={option.value}
+              className={`status-option ${option.value === day.status ? `${option.value} active` : ""}`}
+              type="button"
+              onClick={() => onStatusChange(day, option.value)}
+              aria-pressed={option.value === day.status}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
       </td>
     </tr>
   );

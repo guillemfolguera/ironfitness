@@ -32,11 +32,11 @@ function MealForm({ onSubmit, submitLabel = "Guardar comida" }) {
         <input value={form.name} onChange={(event) => update("name", event.target.value)} required />
       </label>
       <label>
-        Calorias
+        Calorías
         <input type="number" min="0" value={form.calories} onChange={(event) => update("calories", event.target.value)} required />
       </label>
       <label>
-        Proteinas
+        Proteínas
         <input type="number" min="0" step="0.1" value={form.protein} onChange={(event) => update("protein", event.target.value)} required />
       </label>
       <button className="primary-button" type="submit">{submitLabel}</button>

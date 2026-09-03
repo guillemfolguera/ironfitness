@@ -16,7 +16,7 @@ function WeightForm({ onSubmit }) {
     <form className="inline-form" onSubmit={handleSubmit}>
       <input type="date" value={date} onChange={(event) => setDate(event.target.value)} required />
       <input type="number" min="0" step="0.1" placeholder="Peso actual" value={weight} onChange={(event) => setWeight(event.target.value)} required />
-      <button className="primary-button" type="submit">Anadir peso</button>
+      <button className="primary-button" type="submit">Añadir peso</button>
     </form>
   );
 }
