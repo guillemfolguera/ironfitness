@@ -22,6 +22,9 @@ function ProfilePage() {
   const handleSubmit = async (payload) => {
     const updated = await ApiService.updateProfile(payload);
     setProfile(updated);
+    window.dispatchEvent(
+      new CustomEvent("profile-updated", { detail: updated }),
+    );
     setSaved(true);
   };
 
@@ -35,6 +38,9 @@ function ProfilePage() {
     try {
       const updated = await ApiService.uploadProfileAvatar(file);
       setProfile(updated);
+      window.dispatchEvent(
+        new CustomEvent("profile-updated", { detail: updated }),
+      );
       setSaved(true);
     } catch (error) {
       if (error?.response?.status === 401) navigate("/login");

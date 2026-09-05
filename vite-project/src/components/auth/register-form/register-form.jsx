@@ -56,7 +56,7 @@ function RegisterForm() {
         Objetivo
         <select value={objective} onChange={(event) => setObjective(event.target.value)}>
           <option value="lose-weight">Perder peso</option>
-          <option value="gain-muscle">Ganar musculo</option>
+          <option value="gain-muscle">Ganar músculo</option>
           <option value="maintain">Mantener</option>
         </select>
       </label>

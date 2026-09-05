@@ -19,10 +19,10 @@ const weeklyRoutineSchema = new Schema(
           enum: [
             "Lunes",
             "Martes",
-            "Miércoles",
+            "Mi\u00e9rcoles",
             "Jueves",
             "Viernes",
-            "Sábado",
+            "S\u00e1bado",
             "Domingo",
           ],
           required: true,

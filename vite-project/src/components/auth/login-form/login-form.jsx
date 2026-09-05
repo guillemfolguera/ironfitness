@@ -39,7 +39,7 @@ function LoginForm() {
         {loading ? "Entrando..." : "Entrar"}
       </button>
       <p className="muted-link">
-        No tienes cuenta? <Link to="/register">Registrate</Link>
+        No tienes cuenta? <Link to="/register">Regístrate</Link>
       </p>
     </form>
   );

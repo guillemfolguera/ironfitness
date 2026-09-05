@@ -552,6 +552,16 @@ textarea:focus {
   gap: 8px;
 }
 
+.recent-meal {
+  display: grid;
+  gap: 4px;
+  padding: 8px 0;
+}
+
+.recent-meal + .recent-meal {
+  border-top: 1px solid #405564;
+}
+
 .weight-chart {
   width: 100%;
   max-width: 520px;

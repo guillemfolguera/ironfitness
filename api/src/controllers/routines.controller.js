@@ -1,14 +1,52 @@
 const Routine = require("../lib/models/routine.model");
 
-function startOfNaturalWeek(value) {
-  const date = new Date(value);
-  date.setHours(0, 0, 0, 0);
+const dayNames = {
+  Monday: "Lunes",
+  Tuesday: "Martes",
+  Wednesday: "Mi\u00e9rcoles",
+  Thursday: "Jueves",
+  Friday: "Viernes",
+  Saturday: "S\u00e1bado",
+  Sunday: "Domingo",
+  Miercoles: "Mi\u00e9rcoles",
+  Sabado: "S\u00e1bado",
+};
 
-  const weekday = date.getDay();
+function startOfNaturalWeek(value) {
+  const date = parseDate(value);
+  date.setUTCHours(0, 0, 0, 0);
+
+  const weekday = date.getUTCDay();
   const diff = weekday === 0 ? -6 : 1 - weekday;
-  date.setDate(date.getDate() + diff);
+  date.setUTCDate(date.getUTCDate() + diff);
 
   return date;
+}
+
+function parseDate(value) {
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split("-").map(Number);
+    return new Date(Date.UTC(year, month - 1, day));
+  }
+
+  return new Date(value);
+}
+
+function normalizeDayName(day) {
+  return dayNames[day] || day;
+}
+
+function normalizeDays(days = []) {
+  return days.map((day) => ({
+    ...day,
+    day: normalizeDayName(day.day),
+  }));
+}
+
+function normalizeRoutineDays(routine) {
+  routine.days.forEach((day) => {
+    day.day = normalizeDayName(day.day);
+  });
 }
 
 module.exports.list = async (req, res, next) => {
@@ -24,8 +62,8 @@ module.exports.create = async (req, res, next) => {
   try {
     const { week, days } = req.body;
     const routine = await Routine.create({
-      week: startOfNaturalWeek(week),
-      days,
+      week: parseDate(week),
+      days: normalizeDays(days),
       owner: req.user._id,
     });
 
@@ -75,11 +113,10 @@ module.exports.dayUpdate = async (req, res, next) => {
       return res.status(404).json({ message: "Training day not found" });
     }
 
-    day.day = req.body.day;
     day.trainingType = req.body.trainingType;
     day.duration = req.body.duration;
     day.details = req.body.details;
-    day.status = req.body.status;
+    normalizeRoutineDays(routine);
 
     await routine.save();
 
@@ -134,6 +171,7 @@ module.exports.dayStatus = async (req, res, next) => {
     }
 
     day.status = req.body.status;
+    normalizeRoutineDays(routine);
 
     await routine.save();
 

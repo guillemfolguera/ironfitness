@@ -21,7 +21,7 @@ function ProfileForm({ profile, onSubmit }) {
         Objetivo
         <select value={form.objective} onChange={(event) => setForm((current) => ({ ...current, objective: event.target.value }))}>
           <option value="lose-weight">Perder peso</option>
-          <option value="gain-muscle">Ganar musculo</option>
+          <option value="gain-muscle">Ganar músculo</option>
           <option value="maintain">Mantener</option>
         </select>
       </label>

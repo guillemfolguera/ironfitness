@@ -41,7 +41,7 @@ function RoutineForm({ onSubmit }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     onSubmit({
-      week: toDateValue(startOfNaturalWeek(week)),
+      week,
       days: routineDays.map((entry) => ({
         ...entry,
         duration: Number(entry.duration || 0),

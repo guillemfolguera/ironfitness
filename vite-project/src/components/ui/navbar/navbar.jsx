@@ -14,6 +14,14 @@ function Navbar() {
       });
   }, [navigate]);
 
+  useEffect(() => {
+    const handleProfileUpdated = (event) => setProfile(event.detail);
+    window.addEventListener("profile-updated", handleProfileUpdated);
+
+    return () =>
+      window.removeEventListener("profile-updated", handleProfileUpdated);
+  }, []);
+
   const handleLogout = async () => {
     await ApiService.logout().catch(() => null);
     navigate("/login");

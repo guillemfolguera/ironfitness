@@ -44,11 +44,30 @@ function RoutineDetailPage() {
     };
   }, [routineId, navigate]);
 
-  const handleSelectDay = (day) => navigate(`/routines/${routineId}/days/${day._id}`);
+  const handleSelectDay = (day) =>
+    navigate(`/routines/${routineId}/days/${day._id}`);
 
   const handleStatusChange = async (day, status) => {
-    await ApiService.updateRoutineDayStatus(routineId, day._id, { status });
-    await refresh();
+    try {
+      const updatedDay = await ApiService.updateRoutineDayStatus(
+        routineId,
+        day._id,
+        { status },
+      );
+      setRoutine((current) => ({
+        ...current,
+        days: current.days.map((currentDay) =>
+          currentDay._id === updatedDay._id
+            ? { ...currentDay, status: updatedDay.status }
+            : currentDay,
+        ),
+      }));
+    } catch (err) {
+      if (err?.response?.status === 401) navigate("/login");
+      setError(
+        err?.response?.data?.message || "No se pudo actualizar el estado",
+      );
+    }
   };
 
   const handleUpdateDay = async (day) => {
